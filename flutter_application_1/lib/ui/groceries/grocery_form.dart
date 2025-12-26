@@ -46,7 +46,14 @@ class _NewItemState extends State<NewItem> {
   }
 
   void onAdd() {
-    // Will be implemented later - Create and return the new grocery
+    Grocery grocery = Grocery(
+    id: " ",
+    name: _nameController.text,
+    quantity: int.parse(_quantityController.text),
+    category: _selectedCategory,
+    );
+    
+    Navigator.pop<Grocery>(context,grocery);
   }
 
   @override
@@ -74,9 +81,26 @@ class _NewItemState extends State<NewItem> {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: DropdownButtonFormField<GroceryCategory>(
-                    initialValue: _selectedCategory,
-                    items: [  ],
+                   child: DropdownButtonFormField<GroceryCategory>(
+                      initialValue: _selectedCategory,
+                      items: GroceryCategory.values
+                          .map(
+                            (g) => DropdownMenuItem<GroceryCategory>(
+                              value: g,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 15,
+                                    height: 15,
+                                    color: g.color,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(g.name),
+                                ],
+                              ),
+                            ),
+                          )
+                      .toList(),
                     onChanged: (value) {
                       if (value != null) {
                         setState(() {
